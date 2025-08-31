@@ -1,5 +1,6 @@
 # Saudi Design System Color Palettes Generator
-
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://saraabdulmajeed.github.io/Generating-Color-Codes-DGA/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/saraabdulmajeed/Generating-Color-Codes-DGA)
 <div dir="rtl">
 أداة ويب لإنشاء لوحات ألوان مخصصة بناءً على إرشادات نظام التصميم السعودي.
 </div>
