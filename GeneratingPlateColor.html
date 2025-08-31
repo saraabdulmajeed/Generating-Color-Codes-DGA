@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saudi Design System Color Palettes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .palette-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .palette-section:hover {
+            transform: translateY(-2px);
+        }
+
+        .palette-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+            text-align: center;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .color-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .color-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .color-preview {
+            height: 80px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-preview::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.1) 50%, transparent 55%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .color-card:hover .color-preview::after {
+            transform: translateX(100%);
+        }
+
+        .color-info {
+            padding: 15px;
+        }
+
+        .color-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .color-hex {
+            color: #718096;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            background: #f7fafc;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #48bb78;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            font-weight: 500;
+            z-index: 1000;
+        }
+
+        .copy-notification.show {
+            transform: translateX(0);
+        }
+
+        .arabic-title {
+            font-size: 1.2rem;
+            color: #718096;
+            margin-bottom: 10px;
+            text-align: center;
+            direction: rtl;
+        }
+
+        @media (max-width: 768px) {
+            .color-grid {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 12px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .palette-section {
+                padding: 20px;
+            }
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #25935F, #1B8354);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 147, 95, 0.3);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 147, 95, 0.4);
+        }
+
+        .generated-plate {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8fffe;
+            border-radius: 16px;
+            border: 2px dashed #25935F;
+        }
+
+        .plate-title {
+            text-align: center;
+            color: #25935F;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .plate-colors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .plate-color {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .plate-color:hover {
+            transform: scale(1.05);
+        }
+
+        .plate-color-preview {
+            height: 60px;
+            width: 100%;
+        }
+
+        .plate-color-info {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .plate-color-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .plate-color-hex {
+            color: #718096;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            background: #f7fafc;
+            padding: 3px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .plate-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .export-btn, .regenerate-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .export-btn {
+            background: #4299e1;
+            color: white;
+        }
+
+        .regenerate-btn {
+            background: #ed8936;
+            color: white;
+        }
+
+        .export-btn:hover, .regenerate-btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        .plate-usage {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #25935F;
+        }
+
+        .usage-title {
+            font-weight: 600;
+            color: #25935F;
+            margin-bottom: 8px;
+        }
+
+        .usage-text {
+            color: #718096;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Saudi Design System Color Palettes</h1>
+        
+        <!-- Generate Plate Section -->
+        <div class="palette-section">
+            <h2 class="palette-title">Generate Custom Color Plate</h2>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button id="generatePlate" class="generate-btn">🎨 Generate New Color Plate</button>
+            </div>
+            <div id="generated-plate" class="generated-plate" style="display: none;">
+                <h3 class="plate-title">Your Generated Color Plate</h3>
+                <div class="plate-colors" id="plate-colors"></div>
+                <div class="plate-actions">
+                    <button id="exportPlate" class="export-btn">📋 Export Color Codes</button>
+                    <button id="regeneratePlate" class="regenerate-btn">🔄 Generate Another</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Gold Colors -->
+        <div class="palette-section">
+            <div class="arabic-title">الألوان الذهبية</div>
+            <h2 class="palette-title">Gold Colors</h2>
+            <div class="color-grid" id="gold-colors"></div>
+        </div>
+
+        <!-- Lavender Colors -->
+        <div class="palette-section">
+            <div class="arabic-title">ألوان الخزامي</div>
+            <h2 class="palette-title">Lavender Colors</h2>
+            <div class="color-grid" id="lavender-colors"></div>
+        </div>
+
+        <!-- Primary Colors (Saudi Green) -->
+        <div class="palette-section">
+            <div class="arabic-title">الألوان الأساسية</div>
+            <h2 class="palette-title">Primary Colors (Saudi Arabia Green)</h2>
+            <div class="color-grid" id="primary-colors"></div>
+        </div>
+
+        <!-- Neutral Colors -->
+        <div class="palette-section">
+            <div class="arabic-title">الألوان المحايدة</div>
+            <h2 class="palette-title">Neutral Colors</h2>
+            <div class="color-grid" id="neutral-colors"></div>
+        </div>
+    </div>
+
+    <div class="copy-notification" id="copyNotification">
+        Color code copied to clipboard!
+    </div>
+
+    <script>
+        const colorPalettes = {
+            gold: [
+                { name: 'Gold 25', hex: '#FFFEF7' },
+                { name: 'Gold 50', hex: '#FFFEF2' },
+                { name: 'Gold 100', hex: '#FFFCE6' },
+                { name: 'Gold 200', hex: '#FCF3BD' },
+                { name: 'Gold 300', hex: '#F4E996' },
+                { name: 'Gold 400', hex: '#E8D052' },
+                { name: 'Gold 500', hex: '#F8BD02' },
+                { name: 'Gold 600', hex: '#DBA102' },
+                { name: 'Gold 700', hex: '#B97B02' },
+                { name: 'Gold 800', hex: '#945C01' },
+                { name: 'Gold 900', hex: '#6E3C00' },
+                { name: 'Gold 950', hex: '#472400' }
+            ],
+            lavender: [
+                { name: 'Lavender 25', hex: '#FEFCFF' },
+                { name: 'Lavender 50', hex: '#F9F5FA' },
+                { name: 'Lavender 100', hex: '#F2E9F5' },
+                { name: 'Lavender 200', hex: '#E1CCEB' },
+                { name: 'Lavender 300', hex: '#CCA0D9' },
+                { name: 'Lavender 400', hex: '#A57BBA' },
+                { name: 'Lavender 500', hex: '#80519F' },
+                { name: 'Lavender 600', hex: '#6D428F' },
+                { name: 'Lavender 700', hex: '#532D75' },
+                { name: 'Lavender 800', hex: '#3D1D5E' },
+                { name: 'Lavender 900', hex: '#281047' },
+                { name: 'Lavender 950', hex: '#16072E' }
+            ],
+            primary: [
+                { name: 'SA 25', hex: '#F7FDF9' },
+                { name: 'SA 50', hex: '#F3FCF6' },
+                { name: 'SA 100', hex: '#DFF6E7' },
+                { name: 'SA 200', hex: '#B8EACB' },
+                { name: 'SA 300', hex: '#88D8AD' },
+                { name: 'SA 400', hex: '#54C08A' },
+                { name: 'SA 500', hex: '#25935F' },
+                { name: 'SA 600', hex: '#1B8354' },
+                { name: 'SA 700', hex: '#166A45' },
+                { name: 'SA 800', hex: '#14573A' },
+                { name: 'SA 900', hex: '#104631' },
+                { name: 'SA 950', hex: '#092A1E' }
+            ],
+            neutral: [
+                { name: 'Gray 25', hex: '#FCFCFD' },
+                { name: 'Gray 50', hex: '#F9FAFB' },
+                { name: 'Gray 100', hex: '#F3F4F6' },
+                { name: 'Gray 200', hex: '#E5E7EB' },
+                { name: 'Gray 300', hex: '#D2D6DB' },
+                { name: 'Gray 400', hex: '#9DA4AE' },
+                { name: 'Gray 500', hex: '#6C737F' },
+                { name: 'Gray 600', hex: '#4D5761' },
+                { name: 'Gray 700', hex: '#384250' },
+                { name: 'Gray 800', hex: '#1F2A37' },
+                { name: 'Gray 900', hex: '#111927' },
+                { name: 'Gray 950', hex: '#0D121C' }
+            ]
+        };
+
+        function createColorCard(color) {
+            return `
+                <div class="color-card" onclick="copyToClipboard('${color.hex}')">
+                    <div class="color-preview" style="background-color: ${color.hex}"></div>
+                    <div class="color-info">
+                        <div class="color-name">${color.name}</div>
+                        <div class="color-hex">${color.hex}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPalette(paletteId, colors) {
+            const container = document.getElementById(paletteId);
+            container.innerHTML = colors.map(createColorCard).join('');
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showCopyNotification();
+            });
+        }
+
+        function showCopyNotification() {
+            const notification = document.getElementById('copyNotification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+
+        // Render all palettes
+        renderPalette('gold-colors', colorPalettes.gold);
+        renderPalette('lavender-colors', colorPalettes.lavender);
+        renderPalette('primary-colors', colorPalettes.primary);
+        renderPalette('neutral-colors', colorPalettes.neutral);
+
+        // Color plate generation functionality
+        function generateColorPlate() {
+            const plateTypes = [
+                {
+                    name: "Professional Saudi Theme",
+                    colors: [
+                        getRandomColor('primary', [6, 7, 8]),
+                        getRandomColor('gold', [5, 6, 7]),
+                        getRandomColor('neutral', [2, 3, 4]),
+                        getRandomColor('neutral', [8, 9])
+                    ],
+                    usage: "Perfect for government websites, official documents, and professional presentations."
+                },
+                {
+                    name: "Modern Saudi Accent",
+                    colors: [
+                        getRandomColor('primary', [4, 5, 6]),
+                        getRandomColor('lavender', [3, 4, 5]),
+                        getRandomColor('gold', [3, 4]),
+                        getRandomColor('neutral', [1, 2, 3])
+                    ],
+                    usage: "Great for modern apps, marketing materials, and contemporary designs."
+                },
+                {
+                    name: "Traditional Saudi Palette",
+                    colors: [
+                        getRandomColor('gold', [6, 7, 8]),
+                        getRandomColor('primary', [7, 8, 9]),
+                        getRandomColor('neutral', [1, 2]),
+                        getRandomColor('neutral', [9, 10])
+                    ],
+                    usage: "Ideal for cultural events, heritage sites, and traditional presentations."
+                },
+                {
+                    name: "Elegant Saudi Combination",
+                    colors: [
+                        getRandomColor('lavender', [5, 6, 7]),
+                        getRandomColor('primary', [3, 4, 5]),
+                        getRandomColor('gold', [2, 3, 4]),
+                        getRandomColor('neutral', [5, 6, 7])
+                    ],
+                    usage: "Perfect for luxury brands, high-end services, and premium products."
+                },
+                {
+                    name: "Fresh Saudi Look",
+                    colors: [
+                        getRandomColor('primary', [2, 3, 4]),
+                        getRandomColor('gold', [1, 2, 3]),
+                        getRandomColor('lavender', [1, 2, 3]),
+                        getRandomColor('neutral', [6, 7, 8])
+                    ],
+                    usage: "Excellent for startups, tech companies, and innovative projects."
+                }
+            ];
+
+            const randomPlate = plateTypes[Math.floor(Math.random() * plateTypes.length)];
+            displayGeneratedPlate(randomPlate);
+        }
+
+        function getRandomColor(palette, weightRange) {
+            const colors = colorPalettes[palette];
+            const validColors = colors.filter((_, index) => weightRange.includes(index));
+            return validColors[Math.floor(Math.random() * validColors.length)];
+        }
+
+        function displayGeneratedPlate(plate) {
+            const plateContainer = document.getElementById('generated-plate');
+            const plateColorsContainer = document.getElementById('plate-colors');
+            
+            plateContainer.style.display = 'block';
+            
+            plateColorsContainer.innerHTML = plate.colors.map(color => `
+                <div class="plate-color" onclick="copyToClipboard('${color.hex}')">
+                    <div class="plate-color-preview" style="background-color: ${color.hex}"></div>
+                    <div class="plate-color-info">
+                        <div class="plate-color-name">${color.name}</div>
+                        <div class="plate-color-hex">${color.hex}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add usage information
+            plateColorsContainer.innerHTML += `
+                <div class="plate-usage">
+                    <div class="usage-title">${plate.name}</div>
+                    <div class="usage-text">${plate.usage}</div>
+                </div>
+            `;
+
+            // Store current plate for export
+            window.currentPlate = plate;
+        }
+
+        function exportPlate() {
+            if (!window.currentPlate) return;
+            
+            const colors = window.currentPlate.colors;
+            const exportText = `${window.currentPlate.name}\n\n` +
+                colors.map(color => `${color.name}: ${color.hex}`).join('\n') +
+                `\n\nUsage: ${window.currentPlate.usage}`;
+            
+            copyToClipboard(exportText);
+        }
+
+        // Event listeners
+        document.getElementById('generatePlate').addEventListener('click', generateColorPlate);
+        document.getElementById('exportPlate').addEventListener('click', exportPlate);
+        document.getElementById('regeneratePlate').addEventListener('click', generateColorPlate);
+    </script>
+</body>
+</html>
