@@ -1,6 +1,7 @@
 # Saudi Design System Color Palettes Generator
 [![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://saraabdulmajeed.github.io/Generating-Color-Codes-DGA/)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/saraabdulmajeed/Generating-Color-Codes-DGA)
+
 <div dir="rtl">
 أداة ويب لإنشاء لوحات ألوان مخصصة بناءً على إرشادات نظام التصميم السعودي.
 </div>
@@ -14,6 +15,15 @@ A web-based tool for generating custom color palettes based on the Saudi Design 
 </div>
 
 This application allows designers and developers to generate custom color plates that align with the Saudi Design System (SDS) standards. The tool provides an intuitive interface for creating cohesive color schemes that can be used across digital products and services.
+<br>
+<br><br>
+
+## 🚀 Live Demo / العرض المباشر
+
+**🌐 [View Live Application / عرض التطبيق المباشر](https://saraabdulmajeed.github.io/Generating-Color-Codes-DGA/)**
+<br>
+<br>
+<br>
 
 ## ✨ Features / الميزات
 
